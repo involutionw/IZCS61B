@@ -100,11 +100,13 @@ public class IntList {
         if(A==null && B==null) return null;
         while(A!=null) {
             tmp.first = A.first;
+
+            A = A.rest;
+            if (A == null && B == null) continue;
             tmp.rest = new IntList();
             tmp = tmp.rest;
-            A = A.rest;
         }
-
+        
         while(B!=null) {
             tmp.first = B.first;
             if(B.rest != null) {
