@@ -18,7 +18,7 @@ public class ArrayDeque<T> {
     }
 
     private int addOne(int x, int mod) {
-        return x+1 % mod;
+        return (x+1) % mod;
     }
 
     /* 无需特判，因为expand时 F L一定相邻
@@ -110,7 +110,8 @@ public class ArrayDeque<T> {
         if(size == 0) {
             return null;
         }
-        if(length >= 16 && size / length < 0.25) {
+        double usage = (1.0*size / length);
+        if(length >= 16 && usage <= 0.25) {
             shrink();
         }
         nextLast = addOne(nextLast, length);
