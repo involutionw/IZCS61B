@@ -12,8 +12,8 @@ public class ArrayDeque<T> {
         nextLast = 7;
     }
 
-    private int minusOne(int x) {
-        if(x == 0) return Array.length-1;
+    private int minusOne(int x, int length) {
+        if(x == 0) return length-1;
         else return x-1;
     }
 
@@ -27,12 +27,12 @@ public class ArrayDeque<T> {
     private void expand() {
         T[] a = (T[]) new Object[length*2];
 
-        int ptr1 = minusOne(nextFirst);
-        int ptr2 = minusOne(nextFirst);
+        int ptr1 = minusOne(nextFirst, length*2);
+        int ptr2 = minusOne(nextFirst, length);
 
         for(; ptr2 != nextLast; ) {
             a[ptr1] = Array[ptr2];
-            ptr2 = minusOne(ptr2);
+            ptr2 = minusOne(ptr2, length);
             if (ptr1 == 0) ptr1 = a.length - 1;
             else ptr1--;
         }
@@ -45,11 +45,11 @@ public class ArrayDeque<T> {
         T[] a = (T[]) new Object[length / 2];
 
         int ptr1 = (length / 4) - 1;
-        int ptr2 = minusOne(nextFirst);
+        int ptr2 = minusOne(nextFirst, length);
 
         for(; ptr2 != nextLast; ) {
             a[ptr1] = Array[ptr2];
-            ptr2 = minusOne(ptr2);
+            ptr2 = minusOne(ptr2, length);
             if (ptr1 == 0) ptr1 = a.length - 1;
             else ptr1--;
         }
@@ -72,7 +72,7 @@ public class ArrayDeque<T> {
             expand();
         }
         Array[nextLast] = item;
-        nextLast = minusOne(nextLast);
+        nextLast = minusOne(nextLast, length);
         size ++;
     }
 
@@ -86,20 +86,21 @@ public class ArrayDeque<T> {
 
     public void printDeque() {
         int ponint = nextFirst-1;
-        for(;ponint != nextLast; ponint = minusOne(ponint)) {
+        for(;ponint != nextLast; ponint = minusOne(ponint, length)) {
             System.out.println(Array[ponint]);
         }
     }
 
     public T removeFirst() {
-        if(size == 0) {
-            return null;
-        }
+
         double usage = (1.0*size / length);
         if(length >= 16 && usage <= 0.25) {
             shrink();
         }
-        nextFirst = minusOne(nextFirst);
+        if(size == 0) {
+            return null;
+        }
+        nextFirst = minusOne(nextFirst, length);
         T tmp = Array[nextFirst];
         Array[nextFirst] = null;
         size --;
@@ -107,12 +108,13 @@ public class ArrayDeque<T> {
     }
 
     public T removeLast() {
-        if(size == 0) {
-            return null;
-        }
+
         double usage = (1.0*size / length);
         if(length >= 16 && usage <= 0.25) {
             shrink();
+        }
+        if(size == 0) {
+            return null;
         }
         nextLast = addOne(nextLast, length);
         T tmp = Array[nextLast];
@@ -125,9 +127,9 @@ public class ArrayDeque<T> {
         if(index >= size) {
             return null;
         }
-        int p = nextFirst-1;
+        int p = minusOne(nextFirst, length);
         for(int i = 0; i < index; i ++) {
-            p = minusOne(p);
+            p = minusOne(p, length);
         }
         return Array[p];
     }
