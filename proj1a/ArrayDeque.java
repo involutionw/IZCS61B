@@ -49,7 +49,7 @@ public class ArrayDeque<T> {
 
         for(; ptr2 != nextLast; ) {
             a[ptr1] = Array[ptr2];
-            ptr2 = minusOne(ptr1);
+            ptr2 = minusOne(ptr2);
             if (ptr1 == 0) ptr1 = a.length - 1;
             else ptr1--;
         }
