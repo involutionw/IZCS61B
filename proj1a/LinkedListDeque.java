@@ -62,57 +62,47 @@ public class LinkedListDeque<T> {
 
     public T removeFirst() {
         Node p = sentinel.next;
-        if (p == sentinel) {
+        if (size == 0) {
             return null;
         }
-        T removed = (T) new Object();
-        if (p != sentinel) {
-            sentinel.next = p.next;
-            p.next.per = p.per;
-            p.per = null;
-            p.next = null;
-            removed = (T) p.data;
-        }
+        sentinel.next = p.next;
+        p.next.per = p.per;
+        p.per = null;
+        p.next = null;
         size--;
-        return removed;
+        return (T) p.data;
     }
 
     public T removeLast() {
         Node p = sentinel.per;
-        if (p == null) {
+        if (size == 0) {
             return null;
         }
-        T removed = (T) new Object();
-        if (p != sentinel) {
-            sentinel.per = p.per;
-            p.per.next = p.next;
-            p.per = null;
-            p.next = null;
-            removed = (T) p.data;
-        }
+
+        sentinel.per = p.per;
+        p.per.next = p.next;
+        p.per = null;
+        p.next = null;
+
         size--;
-        return removed;
+        return (T) p.data;
     }
 
     public T get(int index) {
+        if(index >= size){
+            return null;
+        }
         int count = 0;
-        Node p = sentinel.next;
-        T res = (T) new Object();
-        while (count < index && p != sentinel) {
+        Node p = sentinel;
+        while (count <= index) {
             p = p.next;
             count ++;
         }
-
-        if (count != index || p == sentinel) {
-            return null;
-        } else {
-            res = (T) p.data;
-        }
-        return res;
+        return (T) p.data;
     }
 
     private T getRecursive(Node p, int index, int cnt) {
-        if (index > size) {
+        if (index >= size) {
             return null;
         }
         if (p == sentinel) {
