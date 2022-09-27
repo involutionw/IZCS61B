@@ -29,18 +29,24 @@ public class Palindrome {
 
         char left = words.removeFirst(), right = words.removeLast();
         if(cc.equalChars(left, right)) {
-            return isPalindromeRecursion(words);
+            return isPalindromeRecursion(words, cc);
         }else {
             return false;
         }
     }
     public boolean isPalindrome(String word) {
+        if(word == null) {
+            return true;
+        }
         Deque words = wordToDeque(word);
         boolean ans = isPalindromeRecursion(words);
         return ans;
     }
 
     public boolean isPalindrome(String word, CharacterComparator cc) {
+        if(word == null) {
+            return true;
+        }
         Deque words = wordToDeque(word);
         boolean ans = isPalindromeRecursion(words, cc);
         return ans;
